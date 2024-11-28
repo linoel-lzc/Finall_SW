@@ -76,9 +76,9 @@ class SW_fetch:
         # logging.info('switch telnet disconnected')
 
 
-def main1(i):
+def main1(i, j, k):
     SW1 = SW_fetch('cisco_ios_telnet', i['ip_address'], i['username'], i['passwd'], i['secret'])
-    output1 = SW1.execute_command(1, 10)
+    output1 = SW1.execute_command(j, k)
 
     output1.insert(0,
                    {'id': 'id', 'ip_address': 'ip_address', 'mac_address': 'mac_address',
@@ -96,25 +96,21 @@ def main1(i):
     SW1.disconnected()
 
 
-def mul_thread(file_path):
-    list1 = handle(file_path)
+def mul_thread(j, k):
+    start = time.time()
+    list1 = handle('sw_information1/sw_detail')
     threads = []
     for switch in list1:
-        thread = threading.Thread(target=main1, args=(switch,))
+        thread = threading.Thread(target=main1, args=(switch, j, k))
         threads.append(thread)
         thread.start()
 
     # 等待所有线程完成
     for thread in threads:
         thread.join()
-
-
-def main():
-    start = time.time()
-    mul_thread('sw_information1/sw_detail')
     end = time.time()
     print(f'运行时间{end - start}')
 
 
 if __name__ == '__main__':
-    main()
+    mul_thread(1, 10)

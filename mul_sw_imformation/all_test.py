@@ -1,4 +1,6 @@
-from code_sw.analysis import main
+import sys
+
+from code_sw.analysis import mul_thread
 
 if __name__ == '__main__':
-    main()
+    mul_thread(int(sys.argv[1]), int(sys.argv[2]))
